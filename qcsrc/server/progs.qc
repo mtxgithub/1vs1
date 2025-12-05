@@ -199,6 +199,7 @@
 #include "monster/boss4.qc"
 #include "monster/fish.qc"
 #include "monster/butcher.qc"
+#include "monster/santa1.qc"
 #include "monster/turret.qc"
 #include "monster/common.qc"
 #include "survive.qc"

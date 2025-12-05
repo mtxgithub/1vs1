@@ -142,6 +142,9 @@ void(float type) projectile_init {
 	case PROJECTILE_RM_PRYAXE:
 		sizes = '16 -4 4';
 		break;
+	case PROJECTILE_SNOWBALL:
+		sizes = '4 -4 4';
+		break;
 	}
 	projectile_register_auto(type, sizes);
 }

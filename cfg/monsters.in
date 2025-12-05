@@ -51,6 +51,10 @@ set g_monster_marine_damage 10
 set g_monster_marine_radius 0.05
 set g_monster_marine_health 50
 set g_monster_marine_force 10
+set g_monster_santa1_health 200
+set g_monster_santa1_damage 50
+set g_monster_santa1_force 150
+set g_monster_santa1_radius 100
 set g_monster_soldier_health 50
 set g_monster_soldier_damage 10
 set g_monster_soldier_force 20

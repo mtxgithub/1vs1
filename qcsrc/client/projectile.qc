@@ -405,6 +405,9 @@ void(float ignore) projectile_read {
 		case PROJECTILE_RM_PRYAXE:
 			setmodel(self, "models/weapons/pryaxe2_thrown.md3");
 			break;
+		case PROJECTILE_SNOWBALL:
+			setmodel(self, "models/ctest1/proj_snowball.mdl");
+			break;
 		default:
 			error("Received invalid CSQC projectile, can't work with this!");
 			break;
