@@ -1252,24 +1252,10 @@ void(void) func_door_trigger_touch {
 			print_to_spec(other, PRINT_CENTER, "This door required {1}", s, "", "");
 		}
 		return;
-	} else if (sv_gameplayfix_keys_vanish && (self.owner.items & IT_KEYS))
-		if ((self.owner.state == 1) || (self.owner.state == 3)) {
-			float _remove_key;
-			if (self.owner.items & IT_KEY1) {
-				// Silver Key
-				_remove_key = IT_KEY1;
-			} else if (self.owner.items & IT_KEY2) {
-				// Gold Key
-				_remove_key = IT_KEY2;
-			} else if (self.owner.items & IT_KEY3) {
-				// Blood Key
-				_remove_key = IT_KEY3;
-			} else {
-				// Unknown Key
-				_remove_key = 0;
-			}
-			other.keys = other.keys - _remove_key;
-		}
+	} else if (sv_gameplayfix_keys_single_use && (self.owner.items & IT_KEYS))
+		if ((self.owner.state == FUNC_STATE_BOTTOM) || ((self.owner.state == FUNC_STATE_TOP) && (self.owner.spawnflags & FUNC_DOOR_TOGGLE)))
+			other.keys &= ~(self.owner.items & IT_KEYS);
+
 	entity oldself = self;
 	activator = other;
 	self = self.owner;

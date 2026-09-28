@@ -5,6 +5,44 @@ float g_coop_item_share_distance;
 
 entity coop_teleporter_latest_active;
 
+void coop_player_drop_key(float item_code) {
+	string _classname = "";
+	string name = "";
+	vector _colormod = '0 0 0';
+	vector offset = '0 0 0';
+	switch (item_code) {
+		case IT_KEY1:
+			_classname = "item_key_silver";
+			_colormod = '0 0 0';
+			name = "Silver Key";
+			offset = '0 12 0';
+			break;
+		case IT_KEY2:
+			_classname = "item_key_gold";
+			_colormod = '1 1 0';
+			name = "Gold Key";
+			offset = '-10 -6 0';
+			break;
+		case IT_KEY3:
+			_classname = "item_key_blood";
+			_colormod = '1 0 0';
+			name = "Blood Key";
+			offset = '10 -6 0';
+			break;
+	}
+
+	entity e = self;
+	self = spawn();
+	setorigin(self, ENTITY_CENTER(e) + offset + '0 0 1' *48);
+	self.classname = _classname;
+	item_start("", "models/keyhunt/key.md3", "kh/collect.wav", 0, 0, name, item_code, 0, item_generic_pickupevalfunc, 100000);
+	self.movetype = MOVETYPE_TOSS;
+	self.colormod = _colormod;
+	self.effects = EFFECT_FULLBRIGHT | EFFECT_STARDUST;
+	setsize(self, self.mins - '0 0 1' * 48, self.maxs);
+	self = e;
+}
+
 void(void) coop_teleporter_think {
 	if (self.solid == SOLID_TRIGGER) {
 		self.alpha = approach(self.alpha, 1, 1);
@@ -25,6 +63,21 @@ void(float killed) coop_player_clear {
 	coop_player_clear_next(killed);
 	if not(killed)
 		score_player_set(self, SP_STATUS, 0);
+
+	if ((sv_gameplayfix_keys_single_use) && (killed == 0)) {
+		if  (self.items & IT_KEY1) {
+			self.items &= ~IT_KEY1;
+			coop_player_drop_key(IT_KEY1);
+		}
+		if (self.items & IT_KEY2) {
+			self.items &= ~IT_KEY2;
+			coop_player_drop_key(IT_KEY2);
+		}
+		if (self.items & IT_KEY3) {
+			self.items &= ~IT_KEY3;
+			coop_player_drop_key(IT_KEY3);
+		}
+	}
 
 	if (self.classname != "disconnecting")
 		return;
